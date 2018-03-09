@@ -1,0 +1,14 @@
+{
+  "name": "puppet-ari",
+  "version": "0.1.0",
+  "author": "Carlos Cavero",
+  "summary": "Roles and profiles for ARI",
+  "license": "Apache 2.0",
+  "source": "https://github.com/carloscaverobarca/puppet-ari.git",
+  "project_page": "https://github.com/carloscaverobarca/puppet-ari",
+  "issues_url": "https://github.com/carloscaverobarca/puppet-ari/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
