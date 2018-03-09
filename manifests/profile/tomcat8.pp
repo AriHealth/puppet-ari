@@ -3,12 +3,12 @@
 class profile::tomcat8(
 	$user,
 	$password,
-	$deployer_password) {
+	$password_deployer) {
 
 	# set variables
 	$tomcat_password = $password
 	$tomcat_user = $user
-	$deployer_password = $deployer_password)
+	$deployer_password = $password_deployer
   
 	package { 'tomcat8':
 		ensure => present,
@@ -20,7 +20,7 @@ class profile::tomcat8(
 	file { "tomcat-users.xml":
 		owner => 'root',
 		path => '/etc/tomcat8/tomcat-users.xml',
-		content => template('tomcat-users.xml.erb')
+		content => template('ari/tomcat-users.xml.erb')
 	} ->
 	service { "tomcat8":
 		ensure => running,

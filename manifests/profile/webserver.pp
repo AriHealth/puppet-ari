@@ -1,4 +1,4 @@
-class profile::nginx (
+class profile::webserver (
   $nginx_vhosts,
   $nginx_location,
   # $letsencrypt_certs

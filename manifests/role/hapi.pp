@@ -1,6 +1,6 @@
-class role::hapi inherits role {
+class ari::role::hapi inherits role {
   include profile::java8
   include profile::tomcat8
-  include profile::nginx
+  include profile::webserver
   include profile::db
 }
