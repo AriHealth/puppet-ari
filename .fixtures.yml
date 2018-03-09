@@ -1,0 +1,10 @@
+fixtures:
+  symlinks:
+    nginx: "#{source_dir}"
+  forge_modules:
+    apt:
+      repo: "puppetlabs/apt"
+      ref: "2.4.0"
+    nginx:
+      repo: "puppetlabs/nginx"
+      ref: "0.6.0"
