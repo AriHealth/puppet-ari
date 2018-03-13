@@ -8,7 +8,6 @@
   "project_page": "https://github.com/carloscaverobarca/puppet-ari",
   "issues_url": "https://github.com/carloscaverobarca/puppet-ari/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/java", "version_requirement": "1.6.0" }
   ],
   "data_provider": "hiera",
