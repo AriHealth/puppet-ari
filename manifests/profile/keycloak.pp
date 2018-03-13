@@ -26,8 +26,28 @@
 # === Parameters
 #
 # [*source*]
-#   Source where to download the keycloak tar file."
-#   Example: https://downloads.jboss.org/keycloak/2.5.0.Final/keycloak-2.5.0.Final.tar.gz
+#   Source where to download the keycloak tar file.
+#   Example: https://downloads.jboss.org/keycloak/3.3.0.Final/keycloak-3.3.0.Final.tar.gz
+#
+# [*db*]
+#   Database for the mysql creation.
+#   Example: keycloak
+#
+# [*user*]
+#   Mysql database user.
+#   Example: keycloak
+#
+# [*password*]
+#   Mysql database password.
+#   Example: password
+#
+# [*management_user*]
+#   Admin user for the KeyCloak console.
+#   Example: admin
+#
+# [*management_password*]
+#   Admin password for the KeyCloak console.
+#   Example: admin_password
 #
 # === Authors
 #
@@ -37,7 +57,7 @@
 # 
 
 class profile::keycloak(
-  $source
+  $source,
   $db,
   $user,
   $password,
@@ -48,16 +68,18 @@ class profile::keycloak(
     version        => '10.1.0',
     distribution   => 'wildfly',
     install_source => $source,
-    jboss_opts       => '-Djboss.socket.binding.port-offset=100'
-    mgmt_user        => { username  => $management_user, password  => $management_password },
-  } ->
+    # jboss_opts       => '-Djboss.socket.binding.port-offset=100',
+    mgmt_user        => { username  => $management_user, password  => $management_password }
+  }
+  
   mysql::db { $db:
     ensure => present,
     user     => $user,
     password => $password,
     host     => 'localhost',
 	grant    => ['ALL'],
-  } ->
+  }
+  
   wildfly::datasources::datasource { 'KeycloakDS':
   config => {
     'driver-name'    => 'mysql',

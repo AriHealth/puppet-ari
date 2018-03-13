@@ -25,8 +25,10 @@
 #
 # === Parameters
 #
-# TODO: parameterize the profile.
+# [*package*]
+#   Java distribution to install.
 #
+
 # === Variables
 #
 # The variables are set to jdk8 and oracle
@@ -38,8 +40,8 @@
 #			e-mail carlos.cavero@atos.net 
 # 
 
-class profile::java8() {
+class profile::java8($package) {
   class { 'java' : 
-    package       => 'java-1.8.0-openjdk-devel'
+    package       => $package
   }
 }
