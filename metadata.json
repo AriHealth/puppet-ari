@@ -8,6 +8,9 @@
   "project_page": "https://github.com/carloscaverobarca/puppet-ari",
   "issues_url": "https://github.com/carloscaverobarca/puppet-ari/issues",
   "dependencies": [
+    {"name":"puppetlabs/mysql", "version_requirement": "3.11.0" },
+    {"name":"puppet/nginx", "version_requirement": "0.6.0" },
+    {"name":"biemond/wildfly", "version_requirement": "1.2.8" },
     {"name":"puppetlabs/java", "version_requirement": "1.6.0" },
     {"name":"puppetlabs/tomcat", "version_requirement": "2.0.0" }
   ],
