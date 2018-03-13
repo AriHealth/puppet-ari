@@ -21,7 +21,7 @@
 # 
 # == Class: profile::java8
 #
-# Install Oracle java8 using the puppet module puppet/java version 1.6.0.
+# Install openjdk java8 using the puppet module puppet/java version 1.6.0.
 #
 # === Parameters
 #
@@ -39,11 +39,7 @@
 # 
 
 class profile::java8() {
-
-	java::oracle { 'jdk8' :
-	  ensure  => 'present',
-	  version => '8',
-	  java_se => 'jdk',
-	}
-
+  class { 'java' : 
+    package       => 'java-1.8.0-openjdk-devel'
+  }
 }
