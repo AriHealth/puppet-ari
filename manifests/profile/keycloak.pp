@@ -74,7 +74,7 @@ class profile::keycloak(
 	java_home         => $java8_home,
     properties       => {
       'jboss.http.port' => $port,
-    }
+    },
     require  => Class['java']
   } ->  
   mysql::db { $db:
