@@ -66,19 +66,21 @@ class profile::keycloak(
   $user,
   $password,
   $management_user,
-  $management_password
+  $management_password,
+  $port,
+  $java8_home
 ) {
   class { 'wildfly':
     version        => '10.1.0',
     distribution   => 'wildfly',
     install_source => $source,
-	properties       => {
-      'jboss.http.port' => $port,
-    }
-	dirname           => '/opt/wildfly',
+    dirname           => '/opt/wildfly',
     mode              => 'standalone',
     config            => 'standalone.xml',
-    users_mgmt        => { $management_user => { password => $management_password}},
+	java_home         => $java8_home
+    properties       => {
+      'jboss.http.port' => $port,
+    }
   } ->  
   # Configure the mySQL data source   
   wildfly::config::module { 'com.mysql':
@@ -98,9 +100,11 @@ class profile::keycloak(
       'user-name'      => $user,
       'password'       => $password
     }
-  } ->  
+  } 
+  
   wildfly::config::mgmt_user { $management_user:
-    password => $management_password
+    password => $management_password,
+    require  => Class['wildfly']
   } ->  
   wildfly::config::user_groups { $management_user:
     groups => 'admin'
