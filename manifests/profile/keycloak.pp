@@ -27,31 +27,35 @@
 #
 # [*source*]
 #   Source where to download the keycloak tar file.
-#   Example: https://downloads.jboss.org/keycloak/3.3.0.Final/keycloak-3.3.0.Final.tar.gz
+#   Example: 'https://downloads.jboss.org/keycloak/3.3.0.Final/keycloak-3.3.0.Final.tar.gz'
 #
 # [*db*]
 #   Database for the mysql creation.
-#   Example: keycloak
+#   Example: 'keycloak'
 #
 # [*user*]
 #   Mysql database user.
-#   Example: keycloak
+#   Example: 'keycloak'
 #
 # [*password*]
 #   Mysql database password.
-#   Example: password
+#   Example: 'password'
 #
 # [*management_user*]
 #   Admin user for the KeyCloak console.
-#   Example: admin
+#   Example: 'admin'
 #
 # [*management_password*]
 #   Admin password for the KeyCloak console.
-#   Example: admin_password
+#   Example: 'admin_password'
 #
 # [*port*]
 #   Port to deploy KeyCloak.
-#   Example: 9090
+#   Example: '9090'
+#
+# [*java8_home*]
+#   java_home configuration for the wildfly service to work.
+#   Example: '/usr/lib/jvm/java-8-openjdk-amd64'
 #
 # === Authors
 #
@@ -77,7 +81,7 @@ class profile::keycloak(
     dirname           => '/opt/wildfly',
     mode              => 'standalone',
     config            => 'standalone.xml',
-	java_home         => $java8_home
+	java_home         => $java8_home,
     properties       => {
       'jboss.http.port' => $port,
     }
