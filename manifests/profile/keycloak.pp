@@ -75,10 +75,14 @@ class profile::keycloak(
 	properties       => {
       'jboss.http.port' => $port,
     }
+	dirname           => '/opt/wildfly',
+    mode              => 'standalone',
+    config            => 'standalone.xml',
+    users_mgmt        => { $management_user => { password => $management_password}},
   } ->  
   # Configure the mySQL data source   
   wildfly::config::module { 'com.mysql':
-    source       => 'https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.42.zip',
+    source       => 'http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.42/mysql-connector-java-5.1.42.jar',
     dependencies => ['javax.api', 'javax.transaction.api']
   } ->  
   wildfly::datasources::driver { 'Driver mysql':
