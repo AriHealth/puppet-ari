@@ -44,6 +44,10 @@ class profile::webserver (
 ) {
   class { 'nginx': }
   
-  create_resources('nginx::resource::server', $nginx_vhosts)
-  create_resources('nginx::resource::location', $nginx_location)
+  if $nginx_vhosts!=undef {
+    create_resources('nginx::resource::server', $nginx_vhosts)
+  }
+  if $nginx_location!=undef {
+    create_resources('nginx::resource::location', $nginx_location)
+  }
 }

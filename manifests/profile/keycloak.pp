@@ -75,33 +75,12 @@ class profile::keycloak(
 	properties       => {
       'jboss.http.port' => $port,
     }
-  }
-  
-  wildfly::config::mgmt_user { $management_user:
-    password => $management_password
   } ->  
-  wildfly::config::user_groups { $management_user:
-    groups => 'admin'
-  } ->
-  widlfly::reload { 'Reload if necessary':
-    retries => 2,
-    wait    => 15,
-  }
-  
-  mysql::db { $db:
-    ensure => present,
-    user     => $user,
-    password => $password,
-    host     => 'localhost',
-	grant    => ['ALL'],
-  }
-
   # Configure the mySQL data source   
   wildfly::config::module { 'com.mysql':
     source       => 'https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.42.zip',
     dependencies => ['javax.api', 'javax.transaction.api']
-  }
-  
+  } ->  
   wildfly::datasources::driver { 'Driver mysql':
     driver_name         => 'mysql',
     driver_module_name  => 'com.mysql',
@@ -115,5 +94,23 @@ class profile::keycloak(
       'user-name'      => $user,
       'password'       => $password
     }
+  } ->  
+  wildfly::config::mgmt_user { $management_user:
+    password => $management_password
+  } ->  
+  wildfly::config::user_groups { $management_user:
+    groups => 'admin'
+  } ->
+  wildfly::reload { 'Reload if necessary':
+    retries => 2,
+    wait    => 15,
+  }
+  
+  mysql::db { $db:
+    ensure => present,
+    user     => $user,
+    password => $password,
+    host     => 'localhost',
+	grant    => ['ALL'],
   }
 }
