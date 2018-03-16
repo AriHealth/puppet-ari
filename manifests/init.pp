@@ -1,40 +1,37 @@
+# === Copyright
+#
+# Copyright (C) 2018  Atos Spain SA. All rights reserved.
+#
+# === License
+#
+# profile::ari is free software: you can redistribute it and/or modify it under the 
+# terms of the Apache License, Version 2.0 (the License);
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# The software is provided "AS IS", without any warranty of any kind, express or implied,
+# including but not limited to the warranties of merchantability, fitness for a particular
+# purpose and noninfringement, in no event shall the authors or copyright holders be 
+# liable for any claim, damages or other liability, whether in action of contract, tort or
+# otherwise, arising from, out of or in connection with the software or the use or other
+# dealings in the software.
+# 
+# See README file for the full disclaimer information and LICENSE file for full license 
+# information in the project root.
+# 
 # == Class: ari
 #
-# Full description of class ari here.
+# Generic ARI class which include roles and profiles to ease the installation process.
 #
 # === Parameters
 #
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { 'ari':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
 # === Authors
 #
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2018 Your name here, unless otherwise noted.
-#
+# Author	Carlos Cavero
+#			Atos Research and Innovation, Atos SPAIN SA
+#			e-mail carlos.cavero@atos.net 
+# 
+
 class ari {
 
 
