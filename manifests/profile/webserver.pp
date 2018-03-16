@@ -39,8 +39,8 @@
 # 
 
 class profile::webserver (
-  $nginx_vhosts,
-  $nginx_location,
+  $nginx_vhosts = undef,
+  $nginx_location = undef,
 ) {
   class { 'nginx': }
   
