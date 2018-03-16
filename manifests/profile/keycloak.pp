@@ -41,14 +41,6 @@
 #   Mysql database password.
 #   Example: 'password'
 #
-# [*management_user*]
-#   Admin user for the KeyCloak console.
-#   Example: 'admin'
-#
-# [*management_password*]
-#   Admin password for the KeyCloak console.
-#   Example: 'admin_password'
-#
 # [*port*]
 #   Port to deploy KeyCloak.
 #   Example: '9090'
@@ -69,8 +61,6 @@ class profile::keycloak(
   $db,
   $user,
   $password,
-  $management_user,
-  $management_password,
   $port,
   $java8_home
 ) {
@@ -85,7 +75,15 @@ class profile::keycloak(
     properties       => {
       'jboss.http.port' => $port,
     }
+    require  => Class['java']
   } ->  
+  mysql::db { $db:
+    ensure => present,
+    user     => $user,
+    password => $password,
+    host     => 'localhost',
+	grant    => ['ALL'],
+  } ->
   # Configure the mySQL data source   
   wildfly::config::module { 'com.mysql':
     source       => 'http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.42/mysql-connector-java-5.1.42.jar',
@@ -99,30 +97,15 @@ class profile::keycloak(
   wildfly::datasources::datasource { 'KeycloakDS':
     config         => {
       'driver-name'    => 'mysql',
-      'connection-url' => 'jdbc:mysql://localhost:3306/$db?useSSL=false&amp;characterEncoding=UTF-8',
+      'connection-url' => "jdbc:mysql://localhost:3306/${db}?useSSL=false&amp;characterEncoding=UTF-8",
       'jndi-name'      => 'java:/jboss/datasources/KeycloakDS',
       'user-name'      => $user,
       'password'       => $password
     }
-  } 
-  
-  wildfly::config::mgmt_user { $management_user:
-    password => $management_password,
-    require  => Class['wildfly']
-  } ->  
-  wildfly::config::user_groups { $management_user:
-    groups => 'admin'
   } ->
-  wildfly::reload { 'Reload if necessary':
-    retries => 2,
-    wait    => 15,
-  }
-  
-  mysql::db { $db:
-    ensure => present,
-    user     => $user,
-    password => $password,
-    host     => 'localhost',
-	grant    => ['ALL'],
+  wildfly::resource { '/subsystem=undertow/server=default-server/http-listener=default':
+    content => {
+     proxy-address-forwarding => true
+    }
   }
 }
