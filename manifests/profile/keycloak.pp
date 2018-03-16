@@ -110,7 +110,7 @@ class profile::keycloak(
     content => {
      proxy-address-forwarding => true
     }
-  } =>
+  } ->
   wildfly::cli { 'Reload if necessary':
     command => ':reload',
     onlyif  => '(result == reload-required) of :read-attribute(name=server-state)'
