@@ -49,6 +49,10 @@
 #   Admin password for the KeyCloak console.
 #   Example: admin_password
 #
+# [*port*]
+#   Port to deploy KeyCloak.
+#   Example: 9090
+#
 # === Authors
 #
 # Author	Carlos Cavero
@@ -68,8 +72,20 @@ class profile::keycloak(
     version        => '10.1.0',
     distribution   => 'wildfly',
     install_source => $source,
-    # jboss_opts       => '-Djboss.socket.binding.port-offset=100',
-    mgmt_user        => { username  => $management_user, password  => $management_password }
+	properties       => {
+      'jboss.http.port' => $port,
+    }
+  }
+  
+  wildfly::config::mgmt_user { $management_user:
+    password => $management_password
+  } ->  
+  wildfly::config::user_groups { $management_user:
+    groups => 'admin'
+  } ->
+  widlfly::reload { 'Reload if necessary':
+    retries => 2,
+    wait    => 15,
   }
   
   mysql::db { $db:
@@ -79,18 +95,25 @@ class profile::keycloak(
     host     => 'localhost',
 	grant    => ['ALL'],
   }
-  
-  wildfly::datasources::datasource { 'KeycloakDS':
-  config => {
-    'driver-name'    => 'mysql',
-    'password'       => $user,
-    'user-name'      => $password,
-    'jndi-name'      => 'java:jboss/datasources/KeycloakDS',
-    'connection-url' => "jdbc:mysql://localhost/$db",
-    'background-validation' => true,
-    'background-validation-millis' => 60000,
-    'check-valid-connection-sql' => 'SELECT 1',
-    'flush-strategy' => 'IdleConnections',
+
+  # Configure the mySQL data source   
+  wildfly::config::module { 'com.mysql':
+    source       => 'https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.42.zip',
+    dependencies => ['javax.api', 'javax.transaction.api']
   }
-}
+  
+  wildfly::datasources::driver { 'Driver mysql':
+    driver_name         => 'mysql',
+    driver_module_name  => 'com.mysql',
+    driver_class_name   => 'com.mysql.jdbc.Driver'
+  } ->
+  wildfly::datasources::datasource { 'KeycloakDS':
+    config         => {
+      'driver-name'    => 'mysql',
+      'connection-url' => 'jdbc:mysql://localhost:3306/$db?useSSL=false&amp;characterEncoding=UTF-8',
+      'jndi-name'      => 'java:/jboss/datasources/KeycloakDS',
+      'user-name'      => $user,
+      'password'       => $password
+    }
+  }
 }
