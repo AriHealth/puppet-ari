@@ -64,6 +64,7 @@ class profile::keycloak(
   $port,
   $java8_home
 ) {
+
   class { 'wildfly':
     version        => '10.1.0',
     distribution   => 'wildfly',
@@ -76,7 +77,8 @@ class profile::keycloak(
       'jboss.http.port' => $port,
     },
     require  => Class['java']
-  } ->  
+  } 
+  
   mysql::db { $db:
     ensure => present,
     user     => $user,
@@ -87,7 +89,8 @@ class profile::keycloak(
   # Configure the mySQL data source   
   wildfly::config::module { 'com.mysql':
     source       => 'http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.42/mysql-connector-java-5.1.42.jar',
-    dependencies => ['javax.api', 'javax.transaction.api']
+    dependencies => ['javax.api', 'javax.transaction.api'],
+	require      => Class['wildfly']
   } ->  
   wildfly::datasources::driver { 'Driver mysql':
     driver_name         => 'mysql',
@@ -107,5 +110,9 @@ class profile::keycloak(
     content => {
      proxy-address-forwarding => true
     }
+  } =>
+  wildfly::cli { 'Reload if necessary':
+    command => ':reload',
+    onlyif  => '(result == reload-required) of :read-attribute(name=server-state)'
   }
 }
