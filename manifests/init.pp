@@ -23,8 +23,6 @@
 #
 # Generic ARI class which include roles and profiles to ease the installation process.
 #
-# === Parameters
-#
 # === Authors
 #
 # Author	Carlos Cavero
