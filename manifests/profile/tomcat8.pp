@@ -45,6 +45,11 @@
 
 class profile::tomcat8() {
 
+	# Include apt package in the OS
+	include apt
+
+	Class['apt::update'] -> Package<| |>
+
 	package { 'tomcat8':
 		ensure => present,
 		require => Class["java8"]
