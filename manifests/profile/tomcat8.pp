@@ -55,20 +55,25 @@ class profile::tomcat8(
     catalina_home => '/var/lib/tomcat8',
     catalina_base => '/var/lib/tomcat8'
   } ->
-  tomcat::instance { 'tomcat8-admin':
-    catalina_home => '/var/lib/tomcat8',
-    catalina_base => '/var/lib/tomcat8'
-  }->
-  tomcat::config::server::tomcat_users {
-   $user:
-      catalina_base => '/var/lib/tomcat8',
-      element  => 'user',
-      password => $password,
-      roles => ['manager-gui','admin'];
-   'deployer':
-      catalina_base => '/var/lib/tomcat8',
-      element => 'user',
-      password => $password_deployer,
-      roles => ['manager-script'];
+  #tomcat::instance { 'tomcat8-admin':
+  #  catalina_home => '/var/lib/tomcat8',
+  #  catalina_base => '/var/lib/tomcat8'
+  #}->
+  #tomcat::config::server::tomcat_users {
+  # $user:
+  #    catalina_base => '/var/lib/tomcat8',
+  #    element  => 'user',
+  #    password => $password,
+  #    roles => ['manager-gui','admin'];
+  # 'deployer':
+  #    catalina_base => '/var/lib/tomcat8',
+  #    element => 'user',
+  #    password => $password_deployer,
+  #    roles => ['manager-script'];
+  #} ->
+  tomcat::service { 'default':
+    use_jsvc     => false,
+    use_init     => true,
+    service_name => 'tomcat',
   }
 }
