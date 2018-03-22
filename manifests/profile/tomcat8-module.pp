@@ -43,13 +43,37 @@
 #			e-mail carlos.cavero@atos.net 
 # 
 
-class profile::tomcat8() {
+class profile::tomcat8(
+	$user,
+	$password,
+	$password_deployer) {
 
-	package { 'tomcat8':
-		ensure => present,
-		require => Class["java8"]
-	} ->
-	service { "tomcat8":
-		ensure => running,
-	}
+  tomcat::install { '/var/lib/tomcat8':
+    source_url => 'https://www.apache.org/dist/tomcat/tomcat-8/v8.0.50/bin/apache-tomcat-8.0.50.tar.gz'
+  } ->
+  tomcat::instance { 'tomcat8':
+    catalina_home => '/var/lib/tomcat8',
+    catalina_base => '/var/lib/tomcat8'
+  } ->
+  #tomcat::instance { 'tomcat8-admin':
+  #  catalina_home => '/var/lib/tomcat8',
+  #  catalina_base => '/var/lib/tomcat8'
+  #}->
+  #tomcat::config::server::tomcat_users {
+  # $user:
+  #    catalina_base => '/var/lib/tomcat8',
+  #    element  => 'user',
+  #    password => $password,
+  #    roles => ['manager-gui','admin'];
+  # 'deployer':
+  #    catalina_base => '/var/lib/tomcat8',
+  #    element => 'user',
+  #    password => $password_deployer,
+  #    roles => ['manager-script'];
+  #} ->
+  tomcat::service { 'default':
+    use_jsvc     => false,
+    use_init     => true,
+    service_name => 'tomcat',
+  }
 }
