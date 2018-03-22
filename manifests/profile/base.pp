@@ -31,5 +31,5 @@
 # 
 
 class ari::profile::base {
-  include ntp
+  include '::ntp'
 }
