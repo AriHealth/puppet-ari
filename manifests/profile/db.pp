@@ -37,9 +37,9 @@
 # 
 
 class profile::db(
-	$root_password) {
+  $root_password) {
 
-	class { '::mysql::server':
+  class { '::mysql::server':
     root_password => $root_password,
     remove_default_accounts => true,
   } 
