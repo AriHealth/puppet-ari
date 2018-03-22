@@ -45,7 +45,7 @@
 #			e-mail carlos.cavero@atos.net 
 # 
 
-class hapi::mysql(
+class profile::hapi::mysql(
   $db,
   $user,
   $password,
