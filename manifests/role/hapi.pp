@@ -44,20 +44,11 @@
 #			e-mail carlos.cavero@atos.net 
 # 
 
-class ari::role::hapi (
-	$db,
-	$user,
-	$password) inherits role {
+class ari::role::hapi () inherits role {
   include profile::java8
   include profile::tomcat8
   include profile::webserver
   include profile::db 
-  mysql::db { $db:
-    ensure => present,
-    user     => $user,
-    password => $password,
-    host     => 'localhost',
-	grant    => ['ALL'],
-  }
+  include profile::hapi::mysql
   include profile::keycloak
 }
