@@ -54,6 +54,11 @@ class profile::tomcat8() {
 		ensure => present,
 		require => Class["java8"]
 	} ->
+	file_line { "Tomcat Memory":
+		line => 'JAVA_OPTS="-Djava.awt.headless=true -Xmx1024m -XX:+UseConcMarkSweepGC"',
+		path=> "/etc/default/tomcat8",
+		match => "^JAVA_OPTS=.*",
+	} ->
 	service { "tomcat8":
 		ensure => running,
 	}
