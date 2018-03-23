@@ -45,6 +45,14 @@
 #   Port to deploy KeyCloak.
 #   Example: '9090'
 #
+# [*management_user*]
+#   Admin user for the KeyCloak console.
+#   Example: admin
+#
+# [*management_password*]
+#   Admin password for the KeyCloak console.
+#   Example: admin_password
+#
 # [*java8_home*]
 #   java_home configuration for the wildfly service to work.
 #   Example: '/usr/lib/jvm/java-8-openjdk-amd64'
@@ -61,6 +69,8 @@ class profile::keycloak(
   $db,
   $user,
   $password,
+  $management_user,
+  $management_password,
   $port,
   $java8_home
 ) {
@@ -114,5 +124,17 @@ class profile::keycloak(
   wildfly::cli { 'Reload if necessary':
     command => ':reload',
     onlyif  => '(result == reload-required) of :read-attribute(name=server-state)'
+  }
+  
+  wildfly::config::mgmt_user { $management_user:
+    password => $management_password,
+    require  => Class['wildfly']
+  } ->  
+  wildfly::config::user_groups { $management_user:
+     groups => 'admin'
+  } ->
+  wildfly::reload { 'Reload if necessary':
+    retries => 2,
+    wait    => 15,
   }
 }
