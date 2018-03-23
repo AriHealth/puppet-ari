@@ -72,8 +72,11 @@ class profile::tomcat8(
   #    roles => ['manager-script'];
   #} ->
   tomcat::service { 'default':
+    catalina_home => '/var/lib/tomcat8',
+    catalina_base => '/var/lib/tomcat8'
+    java_home => '/usr/lib/jvm/java-8-openjdk-amd64/jre'
     use_jsvc     => false,
     use_init     => true,
-    service_name => 'tomcat',
+    service_name => 'tomcat8',
   }
 }
