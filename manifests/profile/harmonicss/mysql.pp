@@ -58,8 +58,8 @@ class profile::harmonicss::mysql(
     ensure => present,
     user     => $user,
     password => $password,
-	sql		 => $sqlfile
+    sql		 => $sqlfile
     host     => 'localhost',
-	grant    => ['ALL'],
+    grant    => ['ALL'],
   } 
 }
