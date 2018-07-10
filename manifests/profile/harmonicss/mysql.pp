@@ -52,13 +52,14 @@ class profile::harmonicss::mysql(
   $db,
   $user,
   $password,
+  $sqlfile
 ) {
 
   mysql::db { $db:
     ensure => present,
     user     => $user,
     password => $password,
-    sql		 => $sqlfile
+    sql		 => $sqlfile,
     host     => 'localhost',
     grant    => ['ALL'],
   } 
