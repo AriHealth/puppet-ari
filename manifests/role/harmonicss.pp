@@ -49,6 +49,6 @@ class ari::role::harmonicss () inherits role {
   include profile::tomcat8
   include profile::webserver
   include profile::db 
-#  include profile::hapi::mysql
+  include profile::harmonicss::mysql
   include profile::keycloak
 }
