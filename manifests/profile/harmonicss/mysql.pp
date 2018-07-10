@@ -38,7 +38,10 @@
 #   Mysql database password.
 #   Example: 'harmonicssPassword'
 #
-# === Authors
+# [*sqlfile*]
+#   Mysql database script creation.
+#   Example: 'script.sql'
+## === Authors
 #
 # Author	Carlos Cavero
 #			Atos Research and Innovation, Atos SPAIN SA
@@ -55,6 +58,7 @@ class profile::harmonicss::mysql(
     ensure => present,
     user     => $user,
     password => $password,
+	sql		 => $sqlfile
     host     => 'localhost',
 	grant    => ['ALL'],
   } 
