@@ -25,7 +25,7 @@ You can use r10k or librarian puppet to download the module with the roles and p
 ## Build
 ```
 mod "puppet-ari",
-	git: "https://github.com/carloscaverobarca/puppet-ari.git"
+	git: "https://github.com/AriHealth/puppet-ari.git"
 ```
 ## Test
 ```
