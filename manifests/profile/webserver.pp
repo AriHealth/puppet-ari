@@ -35,7 +35,6 @@
 #
 # Author	Carlos Cavero
 #			Atos Research and Innovation, Atos SPAIN SA
-#			e-mail carlos.cavero@atos.net 
 # 
 
 class profile::webserver (

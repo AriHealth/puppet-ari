@@ -41,7 +41,6 @@
 #
 # Author	Carlos Cavero
 #			Atos Research and Innovation, Atos SPAIN SA
-#			e-mail carlos.cavero@atos.net 
 # 
 
 class ari::role::hapi () inherits role {
